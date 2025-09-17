@@ -77,10 +77,8 @@ public class SoundManager implements Disposable {
     
     public void resumeAllMusic() {
         if (musicEnabled) {
-            if (menuMusic.isPlaying()) {
-                menuMusic.play();
-            }
-            if (gameMusic.isPlaying()) {
+            // Проверяем, была ли музыка поставлена на паузу (позиция > 0)
+            if (gameMusic.getPosition() > 0) {
                 gameMusic.play();
             }
         }
@@ -105,6 +103,10 @@ public class SoundManager implements Disposable {
         MemoryManager.saveMusicSettings(enabled);
         if (!enabled) {
             stopAllMusic();
+        } else {
+            // Если музыка включена, запускаем музыку меню
+            // (playMenuMusic() сам остановит музыку игры если она играет)
+            playMenuMusic();
         }
     }
     
